@@ -5,6 +5,7 @@
 
 html, body {
   height: 100%;
+  overflow: hidden; /* prevent body scroll — app is always full-viewport */
 }
 
 html {
@@ -41,7 +42,6 @@ button {
 
 /* ---------------- App frame (mobile-first, expands atmospherically on desktop) ---------------- */
 .frame-wrap {
-  min-height: 100vh;
   min-height: 100dvh;
   display: flex;
   justify-content: center;

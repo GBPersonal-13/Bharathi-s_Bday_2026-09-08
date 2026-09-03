@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Bright to Clean White Storm Transition</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #fff9f0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Screen 1: Warm Vibrant Daytime Theme */
+        #screen-bright {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            text-align: center;
+            background: linear-gradient(180deg, #ffd79e 0%, #ffbe76 50%, #fff1d6 100%);
+            color: #3d2200;
+            z-index: 1;
+        }
+
+        #screen-bright h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 10px;
+        }
+
+        #screen-bright p {
+            font-size: 1rem;
+            max-width: 280px;
+            color: #6e4614;
+            line-height: 1.5;
+            margin-bottom: 36px;
+        }
+
+        .sun-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #ff9f1a;
+            box-shadow: 0 0 40px #ff9f1a;
+            margin-bottom: 24px;
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.9;
+            }
+
+            50% {
+                transform: scale(1.08);
+                opacity: 1;
+            }
+        }
+
+        .action-btn {
+            background: #2b1704;
+            color: #ffffff;
+            border: none;
+            padding: 16px 36px;
+            border-radius: 9999px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(43, 23, 4, 0.2);
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .action-btn:active {
+            transform: scale(0.94);
+        }
+
+        /* Transition Layer Canvas */
+        #storm-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Screen 2: Clean Minimalist White Theme */
+        #screen-white {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            text-align: center;
+            background: #ffffff;
+            color: #111827;
+            opacity: 0;
+            transform: scale(0.96);
+            transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 0;
+        }
+
+        #screen-white.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .status-pill {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #2563eb;
+            background: #eff6ff;
+            border: 1px solid #dbeafe;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            margin-bottom: 18px;
+        }
+
+        #screen-white h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+        }
+
+        #screen-white p {
+            color: #6b7280;
+            font-size: 0.95rem;
+            max-width: 290px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section id="screen-bright">
+        <div class="sun-icon"></div>
+        <h1>Warm Dawn</h1>
+        <p>Experience the atmospheric occlusion moving across the canvas.</p>
+        <button class="action-btn" id="trigger-btn">Summon Storm</button>
+    </section>
+
+    <canvas id="storm-canvas"></canvas>
+
+    <section id="screen-white">
+        <div class="status-pill">Sky Cleared</div>
+        <h2>Pure White</h2>
+        <p>The heavy storm has passed, exposing a pristine minimal landscape.</p>
+    </section>
+
+    <script>
+        const canvas = document.getElementById('storm-canvas');
+        const ctx = canvas.getContext('2d');
+        const triggerBtn = document.getElementById('trigger-btn');
+        const screenBright = document.getElementById('screen-bright');
+        const screenWhite = document.getElementById('screen-white');
+
+        let width, height, dpr;
+        let particles = [];
+        let animId = null;
+
+        function resize() {
+            dpr = Math.min(window.devicePixelRatio || 1, 2);
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.scale(dpr, dpr);
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class VolumetricDarkCloud {
+            constructor(index) {
+                this.index = index;
+                this.reset();
+            }
+
+            reset() {
+                // Broad radius to create seamless overlapping mass
+                const minDim = Math.min(width, height);
+                this.radius = minDim * 0.55 + Math.random() * (minDim * 0.35);
+
+                // Enter inward from all borders
+                const padding = 180;
+                const corner = this.index % 4;
+                if (corner === 0) {
+                    this.startX = -padding;
+                    this.startY = Math.random() * height;
+                } else if (corner === 1) {
+                    this.startX = width + padding;
+                    this.startY = Math.random() * height;
+                } else if (corner === 2) {
+                    this.startX = Math.random() * width;
+                    this.startY = -padding;
+                } else {
+                    this.startX = Math.random() * width;
+                    this.startY = height + padding;
+                }
+
+                // Converge tightly over the screen center with natural cluster variation
+                this.coverX = (width * 0.5) + (Math.random() - 0.5) * (width * 0.6);
+                this.coverY = (height * 0.5) + (Math.random() - 0.5) * (height * 0.6);
+
+                // Disperse outwards past edges
+                const angle = Math.atan2(this.coverY - height / 2, this.coverX - width / 2) + (Math.random() - 0.5) * 0.6;
+                const dist = Math.max(width, height) * 1.3;
+                this.exitX = this.coverX + Math.cos(angle) * dist;
+                this.exitY = this.coverY + Math.sin(angle) * dist;
+
+                this.x = this.startX;
+                this.y = this.startY;
+                this.alpha = 0;
+
+                // Multi-toned dark shades for volumetric depth
+                const tone = Math.floor(10 + Math.random() * 12);
+                this.colorCenter = `rgba(${tone}, ${tone + 1}, ${tone + 4}`;
+                this.colorMid = `rgba(${tone - 4}, ${tone - 3}, ${tone}`;
+            }
+
+            update(phase, progress) {
+                if (phase === 'converge') {
+                    // Smooth deceleration into full blackout
+                    const ease = 1 - Math.pow(1 - progress, 3);
+                    this.x = this.startX + (this.coverX - this.startX) * ease;
+                    this.y = this.startY + (this.coverY - this.startY) * ease;
+                    this.alpha = Math.min(1, progress * 1.35);
+                } else if (phase === 'disperse') {
+                    // Accelerate outward and fade away
+                    const ease = Math.pow(progress, 2.2);
+                    this.x = this.coverX + (this.exitX - this.coverX) * ease;
+                    this.y = this.coverY + (this.exitY - this.coverY) * ease;
+                    this.alpha = Math.max(0, 1 - Math.pow(progress, 1.4));
+                }
+            }
+
+            draw() {
+                if (this.alpha <= 0.001) return;
+
+                const grad = ctx.createRadialGradient(
+                    this.x, this.y, 0,
+                    this.x, this.y, this.radius
+                );
+
+                grad.addColorStop(0, `${this.colorCenter}, ${this.alpha})`);
+                grad.addColorStop(0.45, `${this.colorMid}, ${this.alpha * 0.85})`);
+                grad.addColorStop(0.75, `${this.colorMid}, ${this.alpha * 0.4})`);
+                grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initClouds() {
+            particles = [];
+            const density = 28; // Optimal density for complete coverage and mobile fluidity
+            for (let i = 0; i < density; i++) {
+                particles.push(new VolumetricDarkCloud(i));
+            }
+        }
+
+        function startStormSequence() {
+            initClouds();
+            let startTime = performance.now();
+
+            const convergeDuration = 1800; // Time clouds take to completely occlude
+            const holdDuration = 250;      // Pitch dark hold for DOM swap
+            const disperseDuration = 2000; // Cloud dispersal to reveal clean white
+
+            function render(now) {
+                const elapsed = now - startTime;
+                ctx.clearRect(0, 0, width, height);
+
+                if (elapsed < convergeDuration) {
+                    // Phase 1: Convergence
+                    const t = elapsed / convergeDuration;
+                    particles.forEach(p => {
+                        p.update('converge', t);
+                        p.draw();
+                    });
+                }
+                else if (elapsed < convergeDuration + holdDuration) {
+                    // Phase 2: Complete Cover (Screen Switch)
+                    ctx.fillStyle = '#0a0b0e';
+                    ctx.fillRect(0, 0, width, height);
+
+                    if (!screenWhite.classList.contains('active')) {
+                        screenBright.style.display = 'none';
+                        screenWhite.classList.add('active');
+                    }
+                }
+                else if (elapsed < convergeDuration + holdDuration + disperseDuration) {
+                    // Phase 3: Dispersal
+                    const t = (elapsed - (convergeDuration + holdDuration)) / disperseDuration;
+                    particles.forEach(p => {
+                        p.update('disperse', t);
+                        p.draw();
+                    });
+                }
+                else {
+                    // Reset
+                    ctx.clearRect(0, 0, width, height);
+                    cancelAnimationFrame(animId);
+                    return;
+                }
+
+                animId = requestAnimationFrame(render);
+            }
+
+            animId = requestAnimationFrame(render);
+        }
+
+        triggerBtn.addEventListener('click', startStormSequence);
+    </script>
+</body>
+
+</html>

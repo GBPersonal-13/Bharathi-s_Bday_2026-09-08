@@ -1,0 +1,24 @@
+/* =====================================================================
+   HER BIRTHDAY STORY — MASTER STYLESHEET
+   Page-based Hierarchical Modular Styles
+   ===================================================================== */
+
+/* 1. Design tokens & typography */
+@import "variables.css";
+
+/* 2. Base resets, layout frame & navigation mechanics */
+@import "base.css";
+
+/* 3. Global chrome: progress petals & audio controller */
+@import "chrome.css";
+
+/* 4. Shared cinematic transitions */
+@import "transition.css";
+
+/* 5. Page-specific styles */
+@import "pages/01-opening.css";
+@import "pages/02-story.css";
+@import "pages/03-quiz.css";
+@import "pages/04-celebration.css";
+@import "pages/05-letter.css";
+@import "pages/06-secret.css";

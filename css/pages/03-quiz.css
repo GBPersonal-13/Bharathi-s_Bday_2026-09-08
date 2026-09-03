@@ -1,0 +1,132 @@
+/* =============================================================
+   PAGE 03 — THE GAME / QUIZ
+   ============================================================= */
+#page-game {
+  background: linear-gradient(180deg, var(--peach) 0%, var(--blush) 100%);
+}
+
+.game-progress {
+  padding: 84px 26px 0;
+  font-size: 12px;
+  color: var(--plum);
+  letter-spacing: 0.5px;
+}
+
+.game-progress-bar {
+  height: 3px;
+  background: rgba(81, 65, 83, 0.15);
+  border-radius: 3px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.game-progress-fill {
+  height: 100%;
+  background: var(--red);
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+.signboard {
+  margin: 20px 26px 0;
+  background: var(--paper);
+  border-radius: 3px;
+  padding: 22px 18px;
+  box-shadow: 0 8px 22px rgba(41, 37, 43, 0.1);
+  position: relative;
+}
+
+.signboard::before {
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 14px;
+  background: var(--matcha);
+}
+
+.q-text {
+  font-size: 19px;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--plum);
+  line-height: 1.4;
+  margin-bottom: 18px;
+}
+
+.q-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.q-option {
+  background: var(--cream);
+  border: 1px solid rgba(81, 65, 83, 0.18);
+  border-radius: 3px;
+  padding: 14px 16px;
+  font-size: 15px;
+  text-align: left;
+  cursor: pointer;
+  min-height: 44px;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.q-option:active {
+  transform: scale(0.98);
+}
+
+.q-option.chosen {
+  background: var(--sakura);
+  border-color: var(--red);
+}
+
+.q-feedback {
+  margin-top: 14px;
+  font-size: 14px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--red);
+  min-height: 20px;
+}
+
+.game-result {
+  padding: 30px 26px 0;
+  text-align: center;
+}
+
+.game-result .result-badge {
+  display: inline-block;
+  background: var(--red);
+  color: var(--cream);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  padding: 7px 16px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+.game-result h2 {
+  font-size: 24px;
+  color: var(--plum);
+}
+
+.game-result p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-top: 10px;
+}
+
+.hidden-msg {
+  margin-top: 18px;
+  font-family: 'Caveat', cursive;
+  font-size: 24px;
+  color: var(--red);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.hidden-msg.shown {
+  opacity: 1;
+}

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>[Her Name] — A Little Journey</title>
+
+<!--
+=====================================================================
+ HOW TO PERSONALISE THIS SITE
+=====================================================================
+ Edit js/config.js for data-driven content.
+ Search for bracketed placeholders like [Her Name] and replace them.
+
+ Key things to edit:
+  - [Her Name] / [Your Name]        → throughout this file + config.js
+  - CHAPTERS array in js/config.js  → Page 2, "Our Story" content
+  - QUIZ array in js/config.js      → Page 3, quiz questions/answers
+  - Page 4 birthday message below
+  - Page 5 letter paragraphs + photo
+  - SECRET_ANSWERS in js/config.js  + secret reveal text (Page 6)
+  - Optional: add a real mp3 to <audio id="bgMusic"> src for music
+=====================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Serif+JP:wght@400;500;600&family=Inter:wght@300;400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+
+<!-- Modular stylesheet bundle -->
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="frame-wrap">
+  <div class="app">
+
+    <!-- Top chrome: progress petals + music toggle -->
+    <div class="chrome">
+      <div class="petals-progress" id="petalsProgress">
+        <span data-p="1"></span><span data-p="2"></span><span data-p="3"></span>
+        <span data-p="4"></span><span data-p="5"></span><span data-p="6"></span>
+      </div>
+      <button class="music-btn" id="musicBtn" aria-label="Toggle music">♪</button>
+    </div>
+
+    <!-- Stage -->
+    <div class="stage" id="stage">
+
+      <!-- Storm transition canvas (sits above all pages) -->
+      <canvas id="stormCanvas" class="storm-canvas"></canvas>
+
+      <!-- ================= PAGE 1: OPENING ================= -->
+      <section class="page is-active" id="page-opening" data-page="1">
+        <canvas class="petal-canvas" data-density="sparse"></canvas>
+        <div class="opening-scene">
+          <svg class="branch-tl" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 5 Q60 20 100 55 Q130 80 160 70" stroke="#8A6E63" stroke-width="3" fill="none"/>
+            <circle cx="40" cy="18" r="7" fill="#F3C6D3"/>
+            <circle cx="65" cy="32" r="6" fill="#F7DDE4"/>
+            <circle cx="90" cy="50" r="7" fill="#F3C6D3"/>
+            <circle cx="120" cy="65" r="6" fill="#F7DDE4"/>
+            <circle cx="150" cy="68" r="6" fill="#F3C6D3"/>
+          </svg>
+          <svg class="lantern-op" viewBox="0 0 30 50" xmlns="http://www.w3.org/2000/svg">
+            <rect x="13" y="0" width="4" height="8" fill="#8A6E63"/>
+            <ellipse cx="15" cy="26" rx="13" ry="18" fill="#F3D1B8"/>
+            <rect x="10" y="10" width="10" height="3" fill="#B85C62"/>
+            <rect x="10" y="38" width="10" height="3" fill="#B85C62"/>
+          </svg>
+          <svg class="mountains" viewBox="0 0 400 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 90 L60 40 L120 90Z" fill="#D8CBE8"/>
+            <path d="M90 90 L180 25 L260 90Z" fill="#C8DDE8"/>
+            <path d="M220 90 L300 45 L400 90Z" fill="#D8CBE8"/>
+          </svg>
+          <svg class="roofline" viewBox="0 0 400 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M120 60 L120 40 L150 18 L180 40 L180 60Z" fill="#514153" opacity="0.55"/>
+          </svg>
+        </div>
+
+        <div class="page-inner" style="padding-top:0; justify-content:center;">
+          <div class="opening-text">
+            <p class="opening-eyebrow">September 2026 · For someone very special</p>
+            <h1>A little journey,<br><em>made only for you.</em></h1>
+            <button class="seal-btn" id="beginBtn">
+              <span class="jp">はじめよう</span>
+              <span class="en">let's begin</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PAGE 2: OUR STORY ================= -->
+      <section class="page" id="page-story" data-page="2">
+        <canvas class="petal-canvas" data-density="sparse"></canvas>
+        <div class="page-inner story-inner" style="justify-content:flex-start; padding-left:0; padding-right:0;">
+          <div class="story-head">
+            <h2>Our Story</h2>
+            <p>A small path through everything that got us here. Tap each stop.</p>
+          </div>
+
+          <div class="path" id="chapterPath"><!-- chapters injected by JS --></div>
+
+          <div class="story-end">
+            <p>But enough looking back...</p>
+            <p class="accent">Let's play something.</p>
+            <button class="nav-btn center" data-goto="game">Next →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PAGE 3: THE GAME ================= -->
+      <section class="page" id="page-game" data-page="3">
+        <div class="game-progress" id="gameProgress">
+          Question 1 / 6
+          <div class="game-progress-bar"><div class="game-progress-fill" id="gameProgressFill"></div></div>
+        </div>
+
+        <div class="signboard" id="signboard"><!-- question injected by JS --></div>
+
+        <div class="game-result" id="gameResult" style="display:none;">
+          <div class="result-badge">100% — Certified Expert Girlfriend</div>
+          <h2>You know us so well.</h2>
+          <p>But honestly, there was only one answer I wanted...</p>
+          <button class="nav-btn center" id="findOutBtn">Find out →</button>
+          <div class="hidden-msg" id="hiddenMsg">The real answer is... I love you.</div>
+          <button class="nav-btn center" id="toBirthdayBtn" style="display:none; margin-top:22px;">Continue →</button>
+        </div>
+      </section>
+
+      <!-- ================= PAGE 4: BIRTHDAY ================= -->
+      <section class="page" id="page-birthday" data-page="4">
+        <div class="bday-sky">
+          <canvas class="fireworks-canvas" id="fireworksCanvas"></canvas>
+          <div class="stars" id="bdayStars"></div>
+          <div class="moon" id="bdayMoon"></div>
+          <svg class="bday-lantern bl1" viewBox="0 0 30 50" xmlns="http://www.w3.org/2000/svg">
+            <rect x="13" y="0" width="4" height="8" fill="#CBB9C4"/>
+            <ellipse cx="15" cy="26" rx="13" ry="18" fill="#F3C6D3"/>
+            <rect x="10" y="10" width="10" height="3" fill="#B85C62"/>
+            <rect x="10" y="38" width="10" height="3" fill="#B85C62"/>
+          </svg>
+          <svg class="bday-lantern bl2" viewBox="0 0 30 50" xmlns="http://www.w3.org/2000/svg">
+            <rect x="13" y="0" width="4" height="8" fill="#CBB9C4"/>
+            <ellipse cx="15" cy="26" rx="13" ry="18" fill="#F3D1B8"/>
+            <rect x="10" y="10" width="10" height="3" fill="#B85C62"/>
+            <rect x="10" y="38" width="10" height="3" fill="#B85C62"/>
+          </svg>
+          <svg class="bday-roof" viewBox="0 0 400 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M280 70 L280 46 L320 18 L360 46 L360 70Z" fill="#1D1A29"/>
+            <path d="M0 70 L0 55 L400 55 L400 70Z" fill="#231F32"/>
+          </svg>
+        </div>
+        <canvas class="petal-canvas" data-density="normal" id="bdayPetalCanvas"></canvas>
+
+        <div class="bday-intro" id="bdayIntro">
+          <p class="bday-line show" data-line="1">Wait...</p>
+          <p class="bday-line" data-line="2">It's your day.</p>
+          <p class="bday-line final" data-line="3">Happy Birthday, [Her Name] 🌸</p>
+          <p class="tap-hint" id="bdayTapHint">tap to continue</p>
+        </div>
+
+        <div class="cake-scene" id="cakeScene">
+          <svg class="cake" viewBox="0 0 150 110" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="55" width="110" height="45" rx="4" fill="#F7DDE4"/>
+            <rect x="20" y="55" width="110" height="10" fill="#F3C6D3"/>
+            <rect x="35" y="35" width="80" height="24" rx="3" fill="#FBF3E1"/>
+            <rect x="35" y="35" width="80" height="7" fill="#F3D1B8"/>
+            <rect x="55" y="14" width="4" height="22" fill="#EAD9BE"/>
+            <rect x="73" y="10" width="4" height="26" fill="#EAD9BE"/>
+            <rect x="91" y="14" width="4" height="22" fill="#EAD9BE"/>
+            <g id="flameGroup">
+              <ellipse class="candle-flame" data-c="1" cx="57" cy="10" rx="3" ry="6" fill="#F3D1B8"/>
+              <ellipse class="candle-flame" data-c="2" cx="75" cy="6" rx="3.4" ry="7" fill="#F3D1B8"/>
+              <ellipse class="candle-flame" data-c="3" cx="93" cy="10" rx="3" ry="6" fill="#F3D1B8"/>
+            </g>
+          </svg>
+          <p class="wish-label">Make a wish.</p>
+          <p class="wish-sub">Tap the cake when you're ready</p>
+          <button class="wish-btn" id="wishBtn">Blow out the candles</button>
+        </div>
+
+        <div class="bday-message" id="bdayMessage">
+          <h2>Happy Birthday, [Her Name]</h2>
+          <p>I hope this year gives you more reasons to smile, more places to go, more dreams to chase — and I hope you let me be there for as much of it as possible.</p>
+          <p class="bday-jp jp">お誕生日おめでとう</p>
+        </div>
+
+        <div class="bday-end" id="bdayEnd">
+          <p>But I still have one more thing to tell you...</p>
+          <button class="nav-btn on-dark center" data-goto="letter">One last page →</button>
+        </div>
+      </section>
+
+      <!-- ================= PAGE 5: THE LETTER ================= -->
+      <section class="page" id="page-letter" data-page="5">
+        <canvas class="petal-canvas" data-density="sparse"></canvas>
+        <div class="page-inner letter-stage">
+
+          <div id="envelopeWrap">
+            <div class="envelope" id="envelope">
+              <div class="envelope-body"></div>
+              <div class="envelope-flap"></div>
+              <div class="envelope-label">For you.</div>
+            </div>
+            <p class="open-hint">tap the envelope to open it</p>
+          </div>
+
+          <div class="letter-paper" id="letterPaper">
+            <p>I don't always know how to put everything I feel into words, but I wanted to try — today, for you.</p>
+            <p>[Personal section — write about what she means to you, the things you appreciate most about her, and a memory that still makes you smile.]</p>
+            <p>[Future section — write about what you're looking forward to together, and how you want to support her dreams this year.]</p>
+            <p>No matter how many birthdays come and go, I hope I get to celebrate many more of them with you.</p>
+            <div class="letter-photo">🌸</div>
+            <p class="letter-sign">With all my love,<br>[Your Name]</p>
+          </div>
+
+          <div class="letter-end" id="letterEnd">
+            <p>There is actually one more thing...</p>
+            <button class="nav-btn ghost center" data-goto="secret">Really? →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PAGE 6: THE SECRET ================= -->
+      <section class="page" id="page-secret" data-page="6">
+        <canvas class="secret-stars-canvas" id="secretStarsCanvas"></canvas>
+
+        <!-- Draggable Moon -->
+        <div class="secret-moon draggable-moon" id="secretMoon" role="button" aria-label="Draggable moon" tabindex="0">
+          <div class="moon-spots">
+            <span class="m-spot s1"></span>
+            <span class="m-spot s2"></span>
+            <span class="m-spot s3"></span>
+          </div>
+        </div>
+
+        <!-- Draggable hint -->
+        <div class="moon-drag-hint" id="moonDragHint">
+          <span class="hint-icon">✦</span> Drag the moon to illuminate the sky
+        </div>
+
+        <!-- Hidden password cluster in the pitch black starry sky -->
+        <div class="secret-hidden-star" id="secretHiddenStar" title="Click to fill password">
+          <div class="hidden-star-sparkle">✦ ✧ ✦</div>
+          <div class="hidden-star-tag">Secret Key</div>
+          <div class="hidden-star-val" id="secretHiddenVal"></div>
+          <div class="hidden-star-tap">✦ tap to fill key ✦</div>
+        </div>
+
+        <div class="page-inner" style="padding-top:100px;">
+
+          <div class="secret-inner" id="secretLocked">
+            <svg class="secret-lantern" viewBox="0 0 30 50" xmlns="http://www.w3.org/2000/svg">
+              <rect x="13" y="0" width="4" height="8" fill="#CBB9C4"/>
+              <ellipse cx="15" cy="26" rx="13" ry="18" fill="#F3D1B8"/>
+              <rect x="10" y="10" width="10" height="3" fill="#B85C62"/>
+              <rect x="10" y="38" width="10" height="3" fill="#B85C62"/>
+            </svg>
+            <h2>You found the secret.</h2>
+            <p>A hidden key floats in the pitch-black sky...</p>
+
+            <div class="lock-form">
+              <p class="lock-label">Enter the secret key or special date</p>
+              <input type="text" class="lock-input" id="lockInput" placeholder="DD.MM.YYYY" inputmode="text" autocomplete="off">
+              <p class="lock-error" id="lockError"></p>
+              <button class="nav-btn on-dark center" id="unlockBtn" style="margin-top:16px;">Unlock</button>
+              <button class="hint-toggle" id="hintToggle">need a hint?</button>
+              <p class="hint-text" id="hintText">The answer is written in the dark stars. Drag the glowing moon through the pitch-black sky to find and illuminate the hidden constellation!</p>
+            </div>
+          </div>
+
+          <div class="secret-reveal" id="secretReveal">
+            <p class="display">Our next adventure...</p>
+            <p>[Write the real surprise here — a future date you're planning, a trip, or "I have one more surprise planned for you" if it's happening in person.]</p>
+            <div class="secret-final">
+              <p>Thank you for being part of my story.</p>
+              <p class="big">I love you. 🌸</p>
+              <p class="small">THE END... FOR NOW.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<audio id="bgMusic" loop preload="none">
+  <!-- Add a soft piano / ambient instrumental mp3 here, e.g.: -->
+  <!-- <source src="music/theme.mp3" type="audio/mpeg"> -->
+</audio>
+
+<!-- =====================================================================
+     MODULAR SCRIPTS — order matters: config → components → pages → app
+     ===================================================================== -->
+
+<!-- 1. Configuration (personalise here) -->
+<script src="js/config.js"></script>
+
+<!-- 2. Shared components -->
+<script src="js/components/petals.js"></script>
+<script src="js/components/fireworks.js"></script>
+<script src="js/components/storm-transition.js"></script>
+
+<!-- 3. Page controllers -->
+<script src="js/pages/02-story.js"></script>
+<script src="js/pages/03-quiz.js"></script>
+<script src="js/pages/04-celebration.js"></script>
+<script src="js/pages/05-letter.js"></script>
+<script src="js/pages/06-secret.js"></script>
+
+<!-- 4. App bootstrap (navigation, audio, progress) -->
+<script src="js/app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+/* =============================================================
+   PAGE 01 — OPENING
+   ============================================================= */
+.petal-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+#page-opening {
+  background:
+    radial-gradient(ellipse at 50% -10%, #FBEFE0 0%, transparent 60%),
+    linear-gradient(180deg, #FDF6E9 0%, #F7DDE4 55%, #F3C6D3 100%);
+}
+
+.opening-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.mountains {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0.5;
+}
+
+.roofline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.branch-tl {
+  position: absolute;
+  top: -6px;
+  left: -10px;
+  width: 190px;
+  opacity: 0.95;
+}
+
+.lantern-op {
+  position: absolute;
+  top: 60px;
+  right: 30px;
+  width: 34px;
+  animation: sway 4.5s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+@keyframes sway {
+  0%, 100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+.opening-text {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: 0 22px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.opening-eyebrow {
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  color: var(--plum);
+  opacity: 0.75;
+  margin-bottom: 16px;
+}
+
+.opening-text h1 {
+  font-size: 34px;
+  line-height: 1.35;
+  color: var(--plum);
+}
+
+.opening-text h1 em {
+  font-style: italic;
+  color: var(--red);
+}
+
+.seal-btn {
+  margin: 46px auto 0;
+  width: 108px; height: 108px;
+  border-radius: 50%;
+  background: var(--red);
+  color: var(--cream);
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  box-shadow: 0 10px 26px rgba(184, 92, 98, 0.45);
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+
+.seal-btn:active {
+  transform: scale(0.94);
+}
+
+.seal-btn .jp {
+  font-size: 17px;
+  letter-spacing: 1px;
+}
+
+.seal-btn .en {
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  opacity: 0.85;
+  font-family: 'Inter', sans-serif;
+}

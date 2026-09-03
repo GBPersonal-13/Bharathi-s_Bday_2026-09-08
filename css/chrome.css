@@ -1,0 +1,52 @@
+/* ---------------- Top chrome: progress + music ---------------- */
+.chrome {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  pointer-events: none;
+}
+
+.petals-progress {
+  display: flex;
+  gap: 6px;
+  pointer-events: auto;
+}
+
+.petals-progress span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transition: background 0.5s ease, transform 0.5s ease;
+}
+
+.petals-progress span.lit {
+  background: var(--red);
+  transform: scale(1.15);
+}
+
+.music-btn {
+  pointer-events: auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.35);
+  color: var(--plum);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+
+.music-btn.playing {
+  background: rgba(255, 255, 255, 0.65);
+}

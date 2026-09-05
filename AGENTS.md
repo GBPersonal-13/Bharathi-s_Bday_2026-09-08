@@ -1,16 +1,8 @@
-# Workspace Project Rules
+# Workspace Project Guidelines
 
-## 1. Graphify Mandatory Graph-First Policy
+This is a personal birthday storybook web application for Bharathi.
+Built with pure modular HTML, CSS, and Vanilla JavaScript.
 
-This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
-
-When the user types `/graphify`, use the installed graphify skill or instructions before doing anything else.
-
-### Mandatory Rules (Zero Exceptions):
-- **DO NOT analyze or inspect source code files directly first.**
-- **ALWAYS query graphify first** (`graphify query "<question>"`, `graphify explain "<concept>"`, `graphify path "<A>" "<B>"`).
-- Analyze, inspect, and modify the code **only based on the knowledge, node coordinates, and dependency paths surfaced by graphify.**
-- Dirty graphify-out/ files are expected after hooks or incremental updates; dirty graph files are not a reason to skip graphify. Only skip graphify if the task is about stale or incorrect graph output, or the user explicitly says not to use it.
-- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
-- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
-- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+## Guidelines
+- Direct, focused, and minimal file inspection and edits.
+- Keep the design aesthetic pastel, emotional, and refined.

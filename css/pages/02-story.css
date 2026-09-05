@@ -54,6 +54,7 @@
   padding: 16px;
   box-shadow: 0 6px 18px rgba(41, 37, 43, 0.08);
   cursor: pointer;
+  touch-action: manipulation;
   transform: rotate(-0.6deg);
 }
 
@@ -80,7 +81,7 @@
 }
 
 .chapter.open .chapter-body {
-  max-height: 320px;
+  max-height: 800px;
 }
 
 .chapter-body-inner {

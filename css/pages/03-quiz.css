@@ -28,7 +28,7 @@
 }
 
 .signboard {
-  margin: 20px 26px 0;
+  margin: clamp(14px, 3vh, 20px) clamp(16px, 5vw, 26px) 0;
   background: var(--paper);
   border-radius: 3px;
   padding: 22px 18px;
@@ -70,6 +70,7 @@
   text-align: left;
   cursor: pointer;
   min-height: 44px;
+  touch-action: manipulation;
   transition: background 0.25s ease, transform 0.2s ease;
 }
 

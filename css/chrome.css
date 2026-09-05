@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 18px;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) calc(18px + env(safe-area-inset-right, 0px)) 16px calc(18px + env(safe-area-inset-left, 0px));
   pointer-events: none;
 }
 
@@ -32,6 +32,7 @@
 }
 
 .music-btn {
+  position: relative;
   pointer-events: auto;
   width: 34px;
   height: 34px;
@@ -45,6 +46,15 @@
   justify-content: center;
   cursor: pointer;
   backdrop-filter: blur(4px);
+  touch-action: manipulation;
+}
+
+/* 44x44px touch target hitbox for mobile devices */
+.music-btn::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
 }
 
 .music-btn.playing {

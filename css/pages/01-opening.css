@@ -79,7 +79,7 @@
 }
 
 .opening-text h1 {
-  font-size: 34px;
+  font-size: clamp(26px, 7.5vw, 34px);
   line-height: 1.35;
   color: var(--plum);
 }
@@ -90,8 +90,9 @@
 }
 
 .seal-btn {
-  margin: 46px auto 0;
-  width: 108px; height: 108px;
+  margin: clamp(28px, 6vh, 46px) auto 0;
+  width: clamp(94px, 24vw, 108px);
+  height: clamp(94px, 24vw, 108px);
   border-radius: 50%;
   background: var(--red);
   color: var(--cream);
@@ -103,6 +104,7 @@
   gap: 3px;
   box-shadow: 0 10px 26px rgba(184, 92, 98, 0.45);
   cursor: pointer;
+  touch-action: manipulation;
   transition: transform 0.4s ease;
 }
 

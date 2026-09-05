@@ -144,23 +144,23 @@
 
       if (dist >= radius) {
         hiddenStarEl.style.opacity = '0';
-        hiddenStarEl.style.filter = 'blur(10px)';
-        hiddenStarEl.style.transform = 'translate(-50%, -50%) scale(0.8)';
+        hiddenStarEl.style.filter = 'blur(8px)';
+        hiddenStarEl.style.transform = 'translate(-50%, -50%) scale(0.85)';
         hiddenStarEl.classList.remove('revealed');
       } else {
         var ratio = 1 - (dist / radius);
         var eased = Math.pow(ratio, 1.2);
         hiddenStarEl.style.opacity = eased.toFixed(3);
-        hiddenStarEl.style.filter = 'blur(' + ((1 - ratio) * 8).toFixed(1) + 'px)';
-        hiddenStarEl.style.transform = 'translate(-50%, -50%) scale(' + (0.8 + ratio * 0.25).toFixed(2) + ')';
+        hiddenStarEl.style.filter = 'blur(' + ((1 - ratio) * 6).toFixed(1) + 'px)';
+        hiddenStarEl.style.transform = 'translate(-50%, -50%) scale(' + (0.85 + ratio * 0.15).toFixed(2) + ')';
 
         if (ratio > 0.58) {
           hiddenStarEl.classList.add('revealed');
           hiddenStarEl.style.borderColor = 'rgba(243, 198, 211, ' + (0.35 + ratio * 0.5) + ')';
-          hiddenStarEl.style.boxShadow = '0 0 ' + (ratio * 30).toFixed(0) + 'px rgba(243, 198, 211, ' + (ratio * 0.6) + '), 0 0 ' + (ratio * 55).toFixed(0) + 'px rgba(255, 248, 234, ' + (ratio * 0.35) + ')';
+          hiddenStarEl.style.boxShadow = '0 0 ' + (ratio * 18).toFixed(0) + 'px rgba(243, 198, 211, ' + (ratio * 0.5) + '), 0 0 ' + (ratio * 30).toFixed(0) + 'px rgba(255, 248, 234, ' + (ratio * 0.3) + ')';
         } else {
           hiddenStarEl.classList.remove('revealed');
-          hiddenStarEl.style.boxShadow = '0 0 15px rgba(0,0,0,0.8)';
+          hiddenStarEl.style.boxShadow = '0 0 10px rgba(0,0,0,0.8)';
         }
       }
     }

@@ -52,17 +52,17 @@
       return {
         x: Math.random() * canvas.width,
         y: Math.random() * -canvas.height,
-        size: (13 + Math.random() * 11) * dpr,
-        speedY: (0.18 + Math.random() * 0.24) * dpr,
-        speedX: (Math.random() - 0.5) * 0.12 * dpr,
-        swayAmp: (12 + Math.random() * 16) * dpr,
-        swaySpeed: 0.5 + Math.random() * 0.6,
+        size: (20 + Math.random() * 16) * dpr,
+        speedY: (0.55 + Math.random() * 0.6) * dpr,
+        speedX: (Math.random() - 0.5) * 0.22 * dpr,
+        swayAmp: (16 + Math.random() * 22) * dpr,
+        swaySpeed: 0.75 + Math.random() * 0.8,
         phase: Math.random() * Math.PI * 2,
         rot: Math.random() * 360,
-        rotSpeed: (Math.random() - 0.5) * 0.7,
+        rotSpeed: (Math.random() - 0.5) * 1.1,
         flipAngle: Math.random() * Math.PI * 2,
-        flipSpeed: 0.015 + Math.random() * 0.02,
-        opacity: 0.72 + Math.random() * 0.26,
+        flipSpeed: 0.022 + Math.random() * 0.028,
+        opacity: 0.75 + Math.random() * 0.24,
         tone: petalTones[Math.floor(Math.random() * petalTones.length)]
       };
     }
@@ -87,7 +87,7 @@
       ctx.fill();
 
       ctx.strokeStyle = 'rgba(184, 92, 98, 0.35)';
-      ctx.lineWidth = Math.max(0.6, s * 0.038);
+      ctx.lineWidth = Math.max(0.75, s * 0.04);
       ctx.beginPath();
       ctx.moveTo(0, s * 0.75);
       ctx.lineTo(0, -s * 0.55);
@@ -101,8 +101,8 @@
       ctx.rotate(p.rot * Math.PI / 180);
       ctx.scale(Math.cos(p.flipAngle) || 0.05, 1);
       ctx.globalAlpha = p.opacity;
-      ctx.shadowColor = 'rgba(184, 92, 98, 0.18)';
-      ctx.shadowBlur = 3 * dpr;
+      ctx.shadowColor = 'rgba(184, 92, 98, 0.2)';
+      ctx.shadowBlur = 4 * dpr;
       drawPetalShape(p.size, p.tone);
       ctx.restore();
     }
@@ -112,17 +112,17 @@
       var dpr = window.devicePixelRatio || 1;
       petals.forEach(function(p) {
         p.y += p.speedY;
-        p.x += p.speedX + Math.sin(p.y * 0.01 * p.swaySpeed + p.phase) * 0.06 * dpr;
+        p.x += p.speedX + Math.sin(p.y * 0.008 * p.swaySpeed + p.phase) * 0.12 * dpr;
         p.rot += p.rotSpeed;
         p.flipAngle += p.flipSpeed;
-        if (p.y > canvas.height + 40 * dpr) {
-          p.y = -40 * dpr;
+        if (p.y > canvas.height + 50 * dpr) {
+          p.y = -50 * dpr;
           p.x = Math.random() * canvas.width;
         }
-        if (p.x < -10 * dpr) {
-          p.x = canvas.width + 5 * dpr;
-        } else if (p.x > canvas.width + 10 * dpr) {
-          p.x = -5 * dpr;
+        if (p.x < -15 * dpr) {
+          p.x = canvas.width + 10 * dpr;
+        } else if (p.x > canvas.width + 15 * dpr) {
+          p.x = -10 * dpr;
         }
         draw(p);
       });

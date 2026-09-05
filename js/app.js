@@ -26,6 +26,9 @@
     target.classList.add('is-active');
     target.scrollTop = 0;
     updateProgress(id);
+    setTimeout(function() {
+      window.dispatchEvent(new Event('resize'));
+    }, 60);
     if (id === 'secret' && typeof window.onEnterSecretPage === 'function') {
       window.onEnterSecretPage();
     }
@@ -47,10 +50,11 @@
     goTo('story');
   });
 
-  /* ---------------- Music control ---------------- */
-  var music = document.getElementById('bgMusic');
+  /* ---------------- Audio engine ---------------- */
   var musicBtn = document.getElementById('musicBtn');
+  var music = document.getElementById('bgMusic');
   var playing = false;
+
   musicBtn.addEventListener('click', function() {
     if (playing) {
       music.pause();
@@ -67,10 +71,14 @@
 
   // Petal engines (one per canvas)
   var petalEngines = {};
+  var bdayPetalEngine = null;
   document.querySelectorAll('canvas.petal-canvas').forEach(function(c, i) {
-    petalEngines[i] = window.initPetalCanvas(c, reduceMotion);
+    var engine = window.initPetalCanvas(c, reduceMotion);
+    petalEngines[i] = engine;
+    if (c.id === 'bdayPetalCanvas') {
+      bdayPetalEngine = engine;
+    }
   });
-  var bdayPetalEngine = window.initPetalCanvas(document.getElementById('bdayPetalCanvas'), reduceMotion);
 
   // Fireworks
   var bdayFireworks = window.initFireworks(document.getElementById('fireworksCanvas'), reduceMotion);

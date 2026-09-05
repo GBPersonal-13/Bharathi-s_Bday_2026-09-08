@@ -1,12 +1,6 @@
 /* =============================================================
    PAGE 01 — OPENING
    ============================================================= */
-.petal-canvas {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-}
 
 #page-opening {
   background:

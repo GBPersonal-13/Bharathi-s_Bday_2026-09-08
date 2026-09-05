@@ -15,8 +15,27 @@
     if (reduceMotion) count = 0;
 
     function resize() {
-      canvas.width = canvas.clientWidth * devicePixelRatio;
-      canvas.height = canvas.clientHeight * devicePixelRatio;
+      var dpr = window.devicePixelRatio || 1;
+      var w = canvas.clientWidth;
+      var h = canvas.clientHeight;
+
+      // Ensure canvas strictly respects mobile container dimensions
+      var appEl = canvas.closest('.app');
+      if (appEl) {
+        var appRect = appEl.getBoundingClientRect();
+        if (appRect.width > 0) {
+          w = Math.min(w || appRect.width, appRect.width);
+        }
+        if (appRect.height > 0) {
+          h = Math.min(h || appRect.height, appRect.height);
+        }
+      }
+
+      if (!w || w <= 0) w = Math.min(window.innerWidth || 430, 430);
+      if (!h || h <= 0) h = window.innerHeight || 700;
+
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
     }
     resize();
     window.addEventListener('resize', resize);
@@ -29,17 +48,18 @@
 
     var petals = [];
     function make() {
+      var dpr = window.devicePixelRatio || 1;
       return {
         x: Math.random() * canvas.width,
         y: Math.random() * -canvas.height,
-        size: (7 + Math.random() * 7) * devicePixelRatio,
-        speedY: (0.16 + Math.random() * 0.26) * devicePixelRatio,
-        speedX: (Math.random() - 0.5) * 0.12 * devicePixelRatio,
-        swayAmp: (10 + Math.random() * 16) * devicePixelRatio,
-        swaySpeed: 0.6 + Math.random() * 0.7,
+        size: (4.2 + Math.random() * 3.8) * dpr,
+        speedY: (0.15 + Math.random() * 0.22) * dpr,
+        speedX: (Math.random() - 0.5) * 0.08 * dpr,
+        swayAmp: (6 + Math.random() * 9) * dpr,
+        swaySpeed: 0.55 + Math.random() * 0.65,
         phase: Math.random() * Math.PI * 2,
         rot: Math.random() * 360,
-        rotSpeed: (Math.random() - 0.5) * 0.7,
+        rotSpeed: (Math.random() - 0.5) * 0.6,
         flipAngle: Math.random() * Math.PI * 2,
         flipSpeed: 0.015 + Math.random() * 0.02,
         opacity: 0.55 + Math.random() * 0.35,
@@ -67,7 +87,7 @@
       ctx.fill();
 
       ctx.strokeStyle = 'rgba(184, 92, 98, 0.28)';
-      ctx.lineWidth = Math.max(0.4, s * 0.035);
+      ctx.lineWidth = Math.max(0.35, s * 0.035);
       ctx.beginPath();
       ctx.moveTo(0, s * 0.75);
       ctx.lineTo(0, -s * 0.55);
@@ -86,14 +106,20 @@
 
     function loop() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      var dpr = window.devicePixelRatio || 1;
       petals.forEach(function(p) {
         p.y += p.speedY;
-        p.x += p.speedX + Math.sin(p.y * 0.01 * p.swaySpeed + p.phase) * 0.06 * devicePixelRatio;
+        p.x += p.speedX + Math.sin(p.y * 0.01 * p.swaySpeed + p.phase) * 0.05 * dpr;
         p.rot += p.rotSpeed;
         p.flipAngle += p.flipSpeed;
-        if (p.y > canvas.height + 20) {
-          p.y = -20;
+        if (p.y > canvas.height + 20 * dpr) {
+          p.y = -20 * dpr;
           p.x = Math.random() * canvas.width;
+        }
+        if (p.x < 0) {
+          p.x = canvas.width - 2 * dpr;
+        } else if (p.x > canvas.width) {
+          p.x = 2 * dpr;
         }
         draw(p);
       });

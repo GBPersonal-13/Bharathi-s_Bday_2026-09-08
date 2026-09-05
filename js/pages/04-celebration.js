@@ -34,17 +34,36 @@
           }
         });
         if (bdayStep === 3) {
-          document.getElementById('bdayTapHint').style.display = 'none';
+          var tapHint = document.getElementById('bdayTapHint');
+          if (tapHint) {
+            tapHint.style.transition = 'opacity 0.4s ease';
+            tapHint.style.opacity = '0';
+          }
           setTimeout(function() {
-            bdayIntro.style.display = 'none';
-            document.getElementById('cakeScene').classList.add('show');
-          }, 1400);
+            bdayIntro.classList.add('fade-out');
+            setTimeout(function() {
+              bdayIntro.style.display = 'none';
+              var cakeScene = document.getElementById('cakeScene');
+              if (cakeScene) {
+                cakeScene.classList.add('show');
+              }
+            }, 750);
+          }, 1500);
         }
       });
     }
 
     // Wish / blow-out candles
     var wishBtn = document.getElementById('wishBtn');
+    var cakeSvg = document.querySelector('.cake');
+    if (cakeSvg && wishBtn) {
+      cakeSvg.addEventListener('click', function() {
+        if (!wishBtn.classList.contains('done')) {
+          wishBtn.click();
+        }
+      });
+    }
+
     if (wishBtn) {
       wishBtn.addEventListener('click', function() {
         this.classList.add('done');
@@ -57,11 +76,19 @@
         if (bdayFireworks) bdayFireworks.fire();
         if (bdayPetalEngine) bdayPetalEngine.boost(14);
         setTimeout(function() {
-          document.getElementById('cakeScene').style.display = 'none';
-          document.getElementById('bdayMessage').classList.add('show');
-          setTimeout(function() {
-            document.getElementById('bdayEnd').classList.add('show');
-          }, 1800);
+          var cakeScene = document.getElementById('cakeScene');
+          if (cakeScene) {
+            cakeScene.classList.add('fade-out');
+            setTimeout(function() {
+              cakeScene.style.display = 'none';
+              document.getElementById('bdayMessage').classList.add('show');
+              setTimeout(function() {
+                document.getElementById('bdayEnd').classList.add('show');
+              }, 1800);
+            }, 600);
+          } else {
+            document.getElementById('bdayMessage').classList.add('show');
+          }
         }, 1300);
       });
     }

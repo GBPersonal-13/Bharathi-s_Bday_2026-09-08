@@ -1,4 +1,4 @@
-/* ---------------- Top chrome: progress + music ---------------- */
+/* ---------------- Top chrome: music toggle ---------------- */
 .chrome {
   position: absolute;
   top: 0;
@@ -7,28 +7,9 @@
   z-index: 40;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: calc(16px + env(safe-area-inset-top, 0px)) calc(18px + env(safe-area-inset-right, 0px)) 16px calc(18px + env(safe-area-inset-left, 0px));
   pointer-events: none;
-}
-
-.petals-progress {
-  display: flex;
-  gap: 6px;
-  pointer-events: auto;
-}
-
-.petals-progress span {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
-  transition: background 0.5s ease, transform 0.5s ease;
-}
-
-.petals-progress span.lit {
-  background: var(--red);
-  transform: scale(1.15);
 }
 
 .music-btn {

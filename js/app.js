@@ -34,13 +34,7 @@
   // Expose globally so page controllers can call it
   window.goTo = goTo;
 
-  function updateProgress(id) {
-    var idx = order.indexOf(id) + 1;
-    document.querySelectorAll('.petals-progress span').forEach(function(el) {
-      var p = parseInt(el.getAttribute('data-p'), 10);
-      el.classList.toggle('lit', p <= idx);
-    });
-  }
+  function updateProgress(id) {}
   updateProgress('opening');
 
   document.querySelectorAll('[data-goto]').forEach(function(btn) {

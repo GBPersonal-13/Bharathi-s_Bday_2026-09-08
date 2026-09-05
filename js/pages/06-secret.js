@@ -67,9 +67,9 @@
       starsCtx.clearRect(0, 0, starsW, starsH);
 
       if (moonPos.x && moonPos.y) {
-        var moonGlow = starsCtx.createRadialGradient(moonPos.x, moonPos.y, 8, moonPos.x, moonPos.y, 220);
-        moonGlow.addColorStop(0, 'rgba(255, 248, 230, 0.14)');
-        moonGlow.addColorStop(0.35, 'rgba(216, 203, 232, 0.06)');
+        var moonGlow = starsCtx.createRadialGradient(moonPos.x, moonPos.y, 6, moonPos.x, moonPos.y, 105);
+        moonGlow.addColorStop(0, 'rgba(255, 248, 230, 0.16)');
+        moonGlow.addColorStop(0.4, 'rgba(216, 203, 232, 0.05)');
         moonGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
         starsCtx.fillStyle = moonGlow;
         starsCtx.fillRect(0, 0, starsW, starsH);
@@ -84,8 +84,8 @@
           var mdx = s.x - moonPos.x;
           var mdy = s.y - moonPos.y;
           var mDist = Math.sqrt(mdx * mdx + mdy * mdy);
-          if (mDist < 190) {
-            alpha = Math.min(1, alpha + (1 - mDist / 190) * 0.45);
+          if (mDist < 90) {
+            alpha = Math.min(1, alpha + (1 - mDist / 90) * 0.45);
           }
         }
 
@@ -140,23 +140,23 @@
       var dx = moonPos.x - starCoord.x;
       var dy = moonPos.y - starCoord.y;
       var dist = Math.sqrt(dx * dx + dy * dy);
-      var radius = 190;
+      var radius = 85; // Focused illumination range
 
-      if (dist >= radius) {
+      // The key is fully visible only when the moon's direct illumination is right on it
+      if (dist <= 75) {
+        hiddenStarEl.style.opacity = '1';
+        hiddenStarEl.classList.add('revealed');
+        hiddenStarEl.style.borderColor = 'rgba(243, 198, 211, 0.9)';
+        hiddenStarEl.style.boxShadow = '0 0 12px rgba(243, 198, 211, 0.65)';
+      } else if (dist < radius) {
+        var ratio = 1 - (dist / radius);
+        hiddenStarEl.style.opacity = (ratio * 0.35).toFixed(2);
+        hiddenStarEl.classList.remove('revealed');
+        hiddenStarEl.style.borderColor = 'rgba(243, 198, 211, 0.35)';
+        hiddenStarEl.style.boxShadow = 'none';
+      } else {
         hiddenStarEl.style.opacity = '0';
         hiddenStarEl.classList.remove('revealed');
-      } else {
-        var ratio = 1 - (dist / radius);
-        hiddenStarEl.style.opacity = (ratio > 0.08 ? Math.min(1, ratio * 1.5) : 0).toFixed(2);
-
-        if (ratio > 0.35) {
-          hiddenStarEl.classList.add('revealed');
-          hiddenStarEl.style.borderColor = 'rgba(243, 198, 211, ' + (0.5 + ratio * 0.5) + ')';
-          hiddenStarEl.style.boxShadow = '0 0 ' + (ratio * 16).toFixed(0) + 'px rgba(243, 198, 211, 0.6)';
-        } else {
-          hiddenStarEl.classList.remove('revealed');
-          hiddenStarEl.style.boxShadow = '0 0 8px rgba(0,0,0,0.6)';
-        }
       }
     }
 

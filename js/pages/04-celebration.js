@@ -74,7 +74,7 @@
         var bdayMoon = document.getElementById('bdayMoon');
         if (bdayMoon) bdayMoon.classList.add('bright');
         if (bdayFireworks) bdayFireworks.fire();
-        if (bdayPetalEngine) bdayPetalEngine.boost(14);
+        if (bdayPetalEngine) bdayPetalEngine.boost();
         setTimeout(function() {
           var cakeScene = document.getElementById('cakeScene');
           if (cakeScene) {

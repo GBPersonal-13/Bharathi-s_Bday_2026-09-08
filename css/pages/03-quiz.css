@@ -6,6 +6,8 @@
 }
 
 .game-progress {
+  position: relative;
+  z-index: 2;
   padding: 84px 26px 0;
   font-size: 12px;
   color: var(--plum);
@@ -28,6 +30,8 @@
 }
 
 .signboard {
+  position: relative;
+  z-index: 2;
   margin: clamp(14px, 3vh, 20px) clamp(16px, 5vw, 26px) 0;
   background-color: var(--paper);
   background-image:
@@ -104,6 +108,8 @@
 }
 
 .game-feedback-area {
+  position: relative;
+  z-index: 2;
   min-height: 52px;
   margin: clamp(16px, 3.5vh, 26px) clamp(16px, 5vw, 26px) 0;
   display: flex;
@@ -142,6 +148,8 @@
 }
 
 .game-result {
+  position: relative;
+  z-index: 2;
   padding: 30px 26px 0;
   text-align: center;
 }

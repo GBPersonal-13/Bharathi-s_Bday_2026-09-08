@@ -33,6 +33,7 @@
     var isDraggingMoon = false;
     var dragOffset = { x: 0, y: 0 };
     var hasDraggedMoon = false;
+    var revealTimer = null;
 
     function resizeSecretStars() {
       if (!starsCanvas || !starsCtx || !pageSecret) return;
@@ -140,22 +141,28 @@
       var dx = moonPos.x - starCoord.x;
       var dy = moonPos.y - starCoord.y;
       var dist = Math.sqrt(dx * dx + dy * dy);
-      var radius = 85; // Focused illumination range
+      var radius = 80; // Focused illumination range
 
-      // The key is fully visible only when the moon's direct illumination is right on it
-      if (dist <= 75) {
-        hiddenStarEl.style.opacity = '1';
-        hiddenStarEl.classList.add('revealed');
-        hiddenStarEl.style.borderColor = 'rgba(243, 198, 211, 0.9)';
-        hiddenStarEl.style.boxShadow = '0 0 12px rgba(243, 198, 211, 0.65)';
-      } else if (dist < radius) {
-        var ratio = 1 - (dist / radius);
-        hiddenStarEl.style.opacity = (ratio * 0.35).toFixed(2);
-        hiddenStarEl.classList.remove('revealed');
-        hiddenStarEl.style.borderColor = 'rgba(243, 198, 211, 0.35)';
-        hiddenStarEl.style.boxShadow = 'none';
+      // Clear any inline styles so the slow CSS transition has full control
+      hiddenStarEl.style.opacity = '';
+      hiddenStarEl.style.borderColor = '';
+      hiddenStarEl.style.boxShadow = '';
+
+      if (dist <= radius) {
+        if (!hiddenStarEl.classList.contains('revealed') && !revealTimer) {
+          // Intentional dwell delay so a quick swipe doesn't flash it suddenly
+          revealTimer = setTimeout(function() {
+            if (hiddenStarEl) {
+              hiddenStarEl.classList.add('revealed');
+            }
+            revealTimer = null;
+          }, 420); // 420ms delay before beginning the gradual bloom
+        }
       } else {
-        hiddenStarEl.style.opacity = '0';
+        if (revealTimer) {
+          clearTimeout(revealTimer);
+          revealTimer = null;
+        }
         hiddenStarEl.classList.remove('revealed');
       }
     }

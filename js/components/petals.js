@@ -42,8 +42,8 @@
 
     var petalTones = [
       { mid: '#F3C6D3', deep: '#E39CB4' },
-      { mid: '#F7DDE4', deep: '#EFC0CE' },
-      { mid: '#EFB3C6', deep: '#DD87A2' }
+      { mid: '#F7DDE4', deep: '#EAA9BC' },
+      { mid: '#EFA6BD', deep: '#D77292' }
     ];
 
     var petals = [];
@@ -52,17 +52,17 @@
       return {
         x: Math.random() * canvas.width,
         y: Math.random() * -canvas.height,
-        size: (4.2 + Math.random() * 3.8) * dpr,
-        speedY: (0.15 + Math.random() * 0.22) * dpr,
-        speedX: (Math.random() - 0.5) * 0.08 * dpr,
-        swayAmp: (6 + Math.random() * 9) * dpr,
-        swaySpeed: 0.55 + Math.random() * 0.65,
+        size: (13 + Math.random() * 11) * dpr,
+        speedY: (0.18 + Math.random() * 0.24) * dpr,
+        speedX: (Math.random() - 0.5) * 0.12 * dpr,
+        swayAmp: (12 + Math.random() * 16) * dpr,
+        swaySpeed: 0.5 + Math.random() * 0.6,
         phase: Math.random() * Math.PI * 2,
         rot: Math.random() * 360,
-        rotSpeed: (Math.random() - 0.5) * 0.6,
+        rotSpeed: (Math.random() - 0.5) * 0.7,
         flipAngle: Math.random() * Math.PI * 2,
         flipSpeed: 0.015 + Math.random() * 0.02,
-        opacity: 0.55 + Math.random() * 0.35,
+        opacity: 0.72 + Math.random() * 0.26,
         tone: petalTones[Math.floor(Math.random() * petalTones.length)]
       };
     }
@@ -86,8 +86,8 @@
       ctx.fillStyle = grad;
       ctx.fill();
 
-      ctx.strokeStyle = 'rgba(184, 92, 98, 0.28)';
-      ctx.lineWidth = Math.max(0.35, s * 0.035);
+      ctx.strokeStyle = 'rgba(184, 92, 98, 0.35)';
+      ctx.lineWidth = Math.max(0.6, s * 0.038);
       ctx.beginPath();
       ctx.moveTo(0, s * 0.75);
       ctx.lineTo(0, -s * 0.55);
@@ -95,11 +95,14 @@
     }
 
     function draw(p) {
+      var dpr = window.devicePixelRatio || 1;
       ctx.save();
       ctx.translate(p.x, p.y);
       ctx.rotate(p.rot * Math.PI / 180);
       ctx.scale(Math.cos(p.flipAngle) || 0.05, 1);
       ctx.globalAlpha = p.opacity;
+      ctx.shadowColor = 'rgba(184, 92, 98, 0.18)';
+      ctx.shadowBlur = 3 * dpr;
       drawPetalShape(p.size, p.tone);
       ctx.restore();
     }
@@ -109,17 +112,17 @@
       var dpr = window.devicePixelRatio || 1;
       petals.forEach(function(p) {
         p.y += p.speedY;
-        p.x += p.speedX + Math.sin(p.y * 0.01 * p.swaySpeed + p.phase) * 0.05 * dpr;
+        p.x += p.speedX + Math.sin(p.y * 0.01 * p.swaySpeed + p.phase) * 0.06 * dpr;
         p.rot += p.rotSpeed;
         p.flipAngle += p.flipSpeed;
-        if (p.y > canvas.height + 20 * dpr) {
-          p.y = -20 * dpr;
+        if (p.y > canvas.height + 40 * dpr) {
+          p.y = -40 * dpr;
           p.x = Math.random() * canvas.width;
         }
-        if (p.x < 0) {
-          p.x = canvas.width - 2 * dpr;
-        } else if (p.x > canvas.width) {
-          p.x = 2 * dpr;
+        if (p.x < -10 * dpr) {
+          p.x = canvas.width + 5 * dpr;
+        } else if (p.x > canvas.width + 10 * dpr) {
+          p.x = -5 * dpr;
         }
         draw(p);
       });

@@ -43,10 +43,24 @@
           if (signboard.querySelector('.q-option.chosen')) return;
           btn.classList.add('chosen');
           var pool = Math.random() > 0.35 ? correctFeedback : wrongFeedback;
-          if (feedbackEl) {
-            feedbackEl.textContent = pool[Math.floor(Math.random() * pool.length)];
-            feedbackEl.classList.add('show');
-          }
+          var replyText = pool[Math.floor(Math.random() * pool.length)];
+
+          // Thoughtful pause before showing reply so it's not abrupt
+          setTimeout(function() {
+            if (feedbackEl) {
+              feedbackEl.textContent = replyText;
+              feedbackEl.classList.add('show');
+            }
+          }, 450);
+
+          // Softly fade out feedback just before switching questions
+          setTimeout(function() {
+            if (feedbackEl) {
+              feedbackEl.classList.remove('show');
+            }
+          }, 3600);
+
+          // Exactly 4 seconds delay after answer made to move to next question
           setTimeout(function() {
             qIndex++;
             if (qIndex < QUIZ.length) {
@@ -54,7 +68,7 @@
             } else {
               finishGame();
             }
-          }, 900);
+          }, 4000);
         });
       });
     }

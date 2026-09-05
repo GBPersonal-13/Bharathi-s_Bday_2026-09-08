@@ -103,13 +103,42 @@
   box-shadow: 0 2px 10px rgba(184, 92, 98, 0.2);
 }
 
+.game-feedback-area {
+  min-height: 52px;
+  margin: clamp(16px, 3.5vh, 26px) clamp(16px, 5vw, 26px) 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 .q-feedback {
-  margin-top: 14px;
-  font-size: 14px;
+  font-size: 16px;
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
+  font-weight: 500;
   color: var(--red);
-  min-height: 20px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(184, 92, 98, 0.28);
+  border-radius: 24px;
+  padding: 10px 22px;
+  box-shadow:
+    0 4px 16px rgba(81, 65, 83, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  opacity: 0;
+  transform: translateY(8px) scale(0.96);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.q-feedback.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .game-result {

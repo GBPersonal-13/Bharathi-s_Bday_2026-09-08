@@ -29,15 +29,24 @@
       item.options.forEach(function(opt, i) {
         html += '<button class="q-option" data-i="' + i + '">' + opt + '</button>';
       });
-      html += '</div><div class="q-feedback" id="qFeedback"></div>';
+      html += '</div>';
       signboard.innerHTML = html;
+
+      var feedbackEl = document.getElementById('qFeedback');
+      if (feedbackEl) {
+        feedbackEl.textContent = '';
+        feedbackEl.classList.remove('show');
+      }
 
       signboard.querySelectorAll('.q-option').forEach(function(btn) {
         btn.addEventListener('click', function() {
           if (signboard.querySelector('.q-option.chosen')) return;
           btn.classList.add('chosen');
           var pool = Math.random() > 0.35 ? correctFeedback : wrongFeedback;
-          document.getElementById('qFeedback').textContent = pool[Math.floor(Math.random() * pool.length)];
+          if (feedbackEl) {
+            feedbackEl.textContent = pool[Math.floor(Math.random() * pool.length)];
+            feedbackEl.classList.add('show');
+          }
           setTimeout(function() {
             qIndex++;
             if (qIndex < QUIZ.length) {
@@ -53,6 +62,8 @@
     function finishGame() {
       gameProgressFill.style.width = '100%';
       signboard.style.display = 'none';
+      var feedbackArea = document.getElementById('gameFeedbackArea');
+      if (feedbackArea) feedbackArea.style.display = 'none';
       document.getElementById('gameResult').style.display = 'block';
     }
 

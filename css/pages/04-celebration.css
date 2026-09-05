@@ -265,27 +265,41 @@
   pointer-events: none;
 }
 
+.bday-content-wrap {
+  position: relative;
+  z-index: 3;
+  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  pointer-events: none;
+}
+
 .bday-message {
   display: none;
   position: relative;
   z-index: 3;
   text-align: center;
   padding: 0 28px;
-  margin-top: 22px;
+  margin: 0 auto;
+  max-width: 380px;
 }
 
 .bday-message.show {
   display: block;
+  pointer-events: auto;
   animation: fadein 1s ease;
 }
 
 .bday-message h2 {
-  font-size: 26px;
+  font-size: clamp(24px, 6.5vw, 28px);
   color: var(--cream);
 }
 
 .bday-message p {
-  font-size: 14.5px;
+  font-size: 15px;
   line-height: 1.85;
   opacity: 0.92;
   margin-top: 14px;
@@ -302,11 +316,14 @@
   position: relative;
   z-index: 3;
   text-align: center;
-  padding: 26px;
+  padding: 24px 26px 0;
+  margin: 0 auto;
 }
 
 .bday-end.show {
   display: block;
+  pointer-events: auto;
+  animation: fadein 1s ease;
 }
 
 .bday-end p {

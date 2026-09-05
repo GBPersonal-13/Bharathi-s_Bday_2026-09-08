@@ -135,27 +135,66 @@ button {
 }
 
 .nav-btn {
-  margin-top: 34px;
+  margin-top: 32px;
   align-self: flex-start;
-  background: none;
-  border: 1px solid var(--red);
-  color: var(--red);
+  background: linear-gradient(135deg, #C5666D 0%, #B85C62 50%, #9F494F 100%);
+  color: #FFFDF9;
   font-family: 'Cormorant Garamond', serif;
-  font-size: 16px;
-  padding: 10px 22px;
-  min-height: 44px;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  padding: 13px 32px;
+  min-height: 48px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 2px;
+  gap: 8px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 4px 16px rgba(184, 92, 98, 0.35),
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4);
   cursor: pointer;
   touch-action: manipulation;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, filter 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  transform: skewX(-20deg);
+  animation: btnShimmer 3.6s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes btnShimmer {
+  0%, 65% {
+    left: -100%;
+  }
+  100% {
+    left: 200%;
+  }
+}
+
+.nav-btn:hover {
+  transform: translateY(-2px) scale(1.025);
+  box-shadow:
+    0 8px 24px rgba(184, 92, 98, 0.45),
+    0 3px 6px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 
 .nav-btn:active {
-  background: var(--red);
-  color: var(--cream);
+  transform: translateY(1px) scale(0.97);
+  box-shadow: 0 2px 8px rgba(184, 92, 98, 0.3);
 }
 
 .nav-btn.center {
@@ -163,25 +202,47 @@ button {
 }
 
 .nav-btn.primary {
-  background: var(--red);
-  color: var(--cream);
-  border: none;
+  background: linear-gradient(135deg, #C5666D 0%, #B85C62 50%, #9F494F 100%);
+  color: #FFFDF9;
 }
 
 .nav-btn.ghost {
-  border-color: rgba(41, 37, 43, 0.3);
-  color: var(--ink-soft);
-  font-size: 14px;
-  padding: 10px 18px;
+  background: linear-gradient(135deg, #FFFDF8 0%, #FAF2E3 100%);
+  color: var(--plum);
+  border: 1.5px solid rgba(184, 92, 98, 0.35);
+  box-shadow:
+    0 4px 16px rgba(81, 65, 83, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  padding: 12px 28px;
+}
+
+.nav-btn.ghost:hover {
+  border-color: var(--red);
+  color: var(--red);
+  box-shadow: 0 6px 20px rgba(184, 92, 98, 0.2);
 }
 
 .nav-btn.on-dark {
-  border-color: rgba(255, 255, 255, 0.45);
-  color: var(--cream);
+  background: linear-gradient(135deg, #FFFDF8 0%, #FAF3E6 50%, #F5E5D1 100%);
+  color: #3A3045;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    0 4px 22px rgba(251, 243, 225, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+.nav-btn.on-dark:hover {
+  transform: translateY(-2px) scale(1.025);
+  box-shadow:
+    0 8px 28px rgba(251, 243, 225, 0.55),
+    0 3px 8px rgba(0, 0, 0, 0.25);
 }
 
 .nav-btn.on-dark:active {
-  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(1px) scale(0.97);
+  background: #F3E0C8;
 }
 
 /* misc svg helpers */

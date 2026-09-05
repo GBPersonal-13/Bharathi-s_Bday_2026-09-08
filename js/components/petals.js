@@ -3,19 +3,21 @@
  * COMPONENT: SAKURA PETAL ENGINE
  * Canvas-based falling sakura petal particle animation
  * Constant, controlled flow maintaining 10-12 visible petals on mobile
+ * With an opening blow / breeze of petals on the landing page
  * =====================================================================
  */
 (function() {
   "use strict";
 
   // Configuration for controlled, constant petal flow
-  var TOTAL_PETALS = 12;            // Maintains strictly 10 to 12 visible petals on screen
-  var INITIAL_ONSCREEN_COUNT = 5;  // Exactly 5 petals visible falling randomly at the start
+  var TOTAL_PETALS = 12; // Strictly maintains 10 to 12 visible petals on screen
 
   function initPetalCanvas(canvas, reduceMotion) {
-    if (!canvas || canvas.tagName !== 'CANVAS') return { boost: function() {} };
+    if (!canvas || canvas.tagName !== 'CANVAS') return { boost: function() {}, breeze: function() {} };
     var ctx = canvas.getContext('2d');
-    if (reduceMotion) return { boost: function() {} };
+    if (reduceMotion) return { boost: function() {}, breeze: function() {} };
+
+    var isLandingPage = !!canvas.closest('#page-opening');
 
     function resize() {
       var dpr = window.devicePixelRatio || 1;
@@ -51,19 +53,26 @@
 
     var petals = [];
 
+    // On the landing page, show 10 petals immediately across the screen as early as possible
+    var initialOnScreen = isLandingPage ? 10 : 7;
+
     function createPetal(index) {
       var dpr = window.devicePixelRatio || 1;
       var yPos;
-      if (index < INITIAL_ONSCREEN_COUNT) {
-        // At starting: 5 petals fall randomly across the visible mobile viewport
-        yPos = (0.08 + (index / INITIAL_ONSCREEN_COUNT) * 0.72 + (Math.random() - 0.5) * 0.08) * canvas.height;
+      var xPos;
+
+      if (index < initialOnScreen) {
+        // Distributed across the visible mobile viewport right at start
+        yPos = (0.05 + (index / initialOnScreen) * 0.82 + (Math.random() - 0.5) * 0.08) * canvas.height;
+        xPos = (0.05 + Math.random() * 0.90) * canvas.width;
       } else {
-        // Remaining petals are spaced above the screen to enter one by one in a controlled stream
-        yPos = -((index - INITIAL_ONSCREEN_COUNT + 1) * (canvas.height * 0.13) + (18 + Math.random() * 20) * dpr);
+        // Remaining petals queued above the screen to enter steadily
+        yPos = -((index - initialOnScreen + 1) * (canvas.height * 0.14) + (15 + Math.random() * 20) * dpr);
+        xPos = (0.05 + Math.random() * 0.90) * canvas.width;
       }
 
       return {
-        x: (0.06 + Math.random() * 0.88) * canvas.width,
+        x: xPos,
         y: yPos,
         size: (22 + Math.random() * 14) * dpr,
         speedY: (0.72 + (Math.random() - 0.5) * 0.16) * dpr,
@@ -122,6 +131,8 @@
     }
 
     var boostIntensity = 0;
+    // Initial dynamic blow / breeze of petals on the landing page
+    var windBreeze = isLandingPage ? 1.0 : 0;
 
     function loop() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -132,12 +143,20 @@
         if (boostIntensity < 0) boostIntensity = 0;
       }
 
+      if (windBreeze > 0) {
+        windBreeze -= 0.0055; // Gracefully settles over ~3 seconds
+        if (windBreeze < 0) windBreeze = 0;
+      }
+
       petals.forEach(function(p) {
-        var extraSpeed = boostIntensity * 0.25 * dpr;
-        p.y += p.speedY + extraSpeed;
-        p.x += p.speedX + Math.sin(p.y * 0.007 * p.swaySpeed + p.phase) * (0.12 + boostIntensity * 0.06) * dpr;
-        p.rot += p.rotSpeed * (1 + boostIntensity * 0.4);
-        p.flipAngle += p.flipSpeed * (1 + boostIntensity * 0.4);
+        // Wind breeze and boost velocity
+        var extraSpeedY = (boostIntensity * 0.25 + windBreeze * 0.95) * dpr;
+        var extraSpeedX = (windBreeze * 1.75) * dpr;
+
+        p.y += p.speedY + extraSpeedY;
+        p.x += p.speedX + extraSpeedX + Math.sin(p.y * 0.007 * p.swaySpeed + p.phase) * (0.12 + boostIntensity * 0.06 + windBreeze * 0.2) * dpr;
+        p.rot += p.rotSpeed * (1 + boostIntensity * 0.4 + windBreeze * 1.8);
+        p.flipAngle += p.flipSpeed * (1 + boostIntensity * 0.4 + windBreeze * 1.5);
 
         // Continuous, controlled wrap: respawns smoothly above the top edge
         // Ensuring 10 to 12 petals remain strictly visible in the mobile screen
@@ -165,8 +184,10 @@
 
     return {
       boost: function() {
-        // Festive shimmer effect on existing petals rather than dumping extra particles
         boostIntensity = 1;
+      },
+      breeze: function() {
+        windBreeze = 1.0;
       }
     };
   }

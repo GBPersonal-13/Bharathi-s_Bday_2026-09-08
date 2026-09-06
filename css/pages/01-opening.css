@@ -12,6 +12,7 @@
   position: absolute;
   inset: 0;
   z-index: 1;
+  pointer-events: none;
 }
 
 .mountains {
@@ -35,6 +36,8 @@
   left: -10px;
   width: 190px;
   opacity: 0.95;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .lantern-op {

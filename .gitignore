@@ -4,9 +4,7 @@ Thumbs.db
 *.log
 node_modules/
 
-# Graphify cache and temp files
-graphify-out/cache/
-graphify-out/.graphify_uncached.txt
-graphify-out/.graphify_python
-graphify-out/2026-09-05/
-*.sig
+# Graphify & local agent files
+graphify-out/
+.agents/
+

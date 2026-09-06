@@ -47,6 +47,9 @@
   });
 
   document.getElementById('beginBtn').addEventListener('click', function() {
+    if (petalEngines[0] && petalEngines[0].boost) {
+      petalEngines[0].boost();
+    }
     goTo('story');
   });
 
@@ -79,6 +82,16 @@
       bdayPetalEngine = engine;
     }
   });
+
+  // Cherry blossom branch interaction on landing page
+  var branch = document.querySelector('.branch-tl');
+  if (branch) {
+    branch.addEventListener('click', function() {
+      if (petalEngines[0] && petalEngines[0].breeze) {
+        petalEngines[0].breeze();
+      }
+    });
+  }
 
   // Fireworks
   var bdayFireworks = window.initFireworks(document.getElementById('fireworksCanvas'), reduceMotion);

@@ -119,19 +119,19 @@
 }
 
 .q-feedback {
-  font-size: 16px;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-weight: 500;
+  font-size: 17px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-style: normal;
+  font-weight: 700;
   color: var(--red);
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(184, 92, 98, 0.28);
+  border: 1.5px solid rgba(184, 92, 98, 0.4);
   border-radius: 24px;
-  padding: 10px 22px;
+  padding: 11px 24px;
   box-shadow:
-    0 4px 16px rgba(81, 65, 83, 0.08),
+    0 4px 16px rgba(81, 65, 83, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.95);
   opacity: 0;
   transform: translateY(8px) scale(0.96);

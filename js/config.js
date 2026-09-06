@@ -130,7 +130,7 @@ window.HER_CONFIG = {
 
   // Page 6: Secret password(s) — case-insensitive, ignores spaces
   SECRET_ANSWERS: [
-    "enakku pudicha vaarthai",
+    "enakku pudicha vaarthai ",
     "mama"
   ]
 };

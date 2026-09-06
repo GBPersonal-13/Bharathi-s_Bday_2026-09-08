@@ -18,8 +18,8 @@
     if (reduceMotion) return { boost: function() {}, breeze: function() {} };
 
     var isLandingPage = !!canvas.closest('#page-opening');
-    // On the landing page, strictly maintain 5 petals; on other pages maintain 12 petals
-    var totalPetals = isLandingPage ? 5 : 12;
+    // Total petals maintained at usual 12 count; on landing page 5 start near top to blow down
+    var totalPetals = 12;
     var initialOnScreen = isLandingPage ? 5 : 7;
 
     function resize() {
@@ -61,8 +61,8 @@
       var yPos;
       var xPos;
 
-      if (isLandingPage) {
-        // Exactly 5 petals positioned in a completely random manner across the upper viewport
+      if (isLandingPage && index < 5) {
+        // These 5 petals are specifically for the landing blow-down, scattered randomly near the top
         xPos = (0.08 + Math.random() * 0.84) * canvas.width;
         // Staggered randomly near the top (-6% to +22% of canvas height)
         yPos = (-0.06 + Math.random() * 0.26) * canvas.height;
@@ -82,7 +82,7 @@
           flipSpeed: 0.018 + Math.random() * 0.02,
           opacity: 0.78 + Math.random() * 0.2,
           tone: petalTones[Math.floor(Math.random() * petalTones.length)],
-          windFactor: 0.8 + Math.random() * 0.4 // individual responsiveness to wind
+          windFactor: 0.8 + Math.random() * 0.4
         };
       }
 
@@ -91,7 +91,7 @@
         yPos = (0.06 + (index / initialOnScreen) * 0.78 + (Math.random() - 0.5) * 0.08) * canvas.height;
         xPos = (0.05 + Math.random() * 0.90) * canvas.width;
       } else {
-        // Remaining petals queued above the screen to enter steadily
+        // Remaining petals queued above the screen to enter steadily as usual
         yPos = -((index - initialOnScreen + 1) * (canvas.height * 0.14) + (15 + Math.random() * 20) * dpr);
         xPos = (0.05 + Math.random() * 0.90) * canvas.width;
       }
@@ -100,8 +100,8 @@
         x: xPos,
         y: yPos,
         size: (22 + Math.random() * 14) * dpr,
-        speedY: (0.85 + (Math.random() - 0.5) * 0.2) * dpr,
-        speedX: (Math.random() - 0.5) * 0.2 * dpr,
+        speedY: (0.92 + (Math.random() - 0.5) * 0.22) * dpr,
+        speedX: ((Math.random() - 0.5) * 0.25) * dpr,
         swayAmp: (14 + Math.random() * 12) * dpr,
         swaySpeed: 0.8 + Math.random() * 0.35,
         phase: Math.random() * Math.PI * 2,
@@ -110,7 +110,8 @@
         flipAngle: Math.random() * Math.PI * 2,
         flipSpeed: 0.018 + Math.random() * 0.02,
         opacity: 0.76 + Math.random() * 0.22,
-        tone: petalTones[Math.floor(Math.random() * petalTones.length)]
+        tone: petalTones[Math.floor(Math.random() * petalTones.length)],
+        windFactor: 0.7 + Math.random() * 0.3
       };
     }
 
@@ -185,16 +186,16 @@
         p.flipAngle += p.flipSpeed * (1 + boostIntensity * 0.5 + windBreeze * 1.5 * wf);
 
         // Continuous, controlled wrap: respawns smoothly above the top edge
-        // Ensuring petals remain falling in a continuous flow
+        // Ensuring petals remain falling in a continuous flow as usual
         if (p.y > canvas.height + 25 * dpr) {
           p.y = -(15 + Math.random() * 25) * dpr;
           p.x = (0.05 + Math.random() * 0.9) * canvas.width;
-          p.speedY = (isLandingPage ? (1.15 + (Math.random() - 0.5) * 0.3) : (0.85 + Math.random() * 0.2)) * dpr;
-          p.speedX = (isLandingPage ? ((Math.random() - 0.45) * 0.3) : ((Math.random() - 0.5) * 0.2)) * dpr;
+          p.speedY = (0.92 + (Math.random() - 0.5) * 0.25) * dpr;
+          p.speedX = ((Math.random() - 0.5) * 0.25) * dpr;
           p.phase = Math.random() * Math.PI * 2;
           p.rot = Math.random() * 360;
           p.rotSpeed = (0.85 + Math.random() * 0.8) * (Math.random() < 0.5 ? 1 : -1);
-          p.windFactor = 0.8 + Math.random() * 0.4;
+          p.windFactor = 0.7 + Math.random() * 0.3;
         }
 
         if (p.x < -20 * dpr) {

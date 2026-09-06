@@ -42,8 +42,11 @@
         btn.addEventListener('click', function() {
           if (signboard.querySelector('.q-option.chosen')) return;
           btn.classList.add('chosen');
+          var optIndex = parseInt(btn.getAttribute('data-i'), 10);
           var pool = Math.random() > 0.35 ? correctFeedback : wrongFeedback;
-          var replyText = pool[Math.floor(Math.random() * pool.length)];
+          var replyText = (item.replies && item.replies[optIndex])
+            ? item.replies[optIndex]
+            : pool[Math.floor(Math.random() * pool.length)];
 
           // Thoughtful pause before showing reply so it's not abrupt
           setTimeout(function() {

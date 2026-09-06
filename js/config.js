@@ -56,12 +56,64 @@ window.HER_CONFIG = {
 
   // Page 3: Love Quiz questions
   QUIZ: [
-    { q: "Who fell first?", options: ["Me", "You", "Honestly, both at once"] },
-    { q: "Who is more dramatic?", options: ["Me", "You", "We're equally unwell"] },
-    { q: "What would we probably do on a rainy day?", options: ["Stay in bed all day", "Watch a movie and complain about the ending", "Order way too much food"] },
-    { q: "Which place would I take you to?", options: ["[Place 1]", "[Place 2]", "[Place 3]"] },
-    { q: "What's our most chaotic memory?", options: ["[Memory 1]", "[Memory 2]", "[Memory 3]"] },
-    { q: "Who is more likely to say \"I'm not hungry\" and then steal your food?", options: ["Me", "You", "Both 😂"] }
+    {
+      q: "Yaaru First Love pannanga?",
+      options: ["Me", "You", "Both"],
+      replies: [
+        "Apdi sollu thangoo",
+        "Poi poi ah soldra madam eva",
+        "Yaa solla maata"
+      ]
+    },
+    {
+      q: "yaaru over react pandrathu?",
+      options: ["Me", "You", "Both"],
+      replies: [
+        "Correct baby",
+        "Sometimes thaan",
+        "Time sari illatha appo than"
+      ]
+    },
+    {
+      q: "Unexpected ah Oru Family function lae, Nee enna paatha, Unakku first enna thonum?",
+      options: [
+        "Appadiye hug pannikalam nu thonum",
+        "Namma dress color match aguthu nu paapan",
+        "Enga poonalum En koodavae iruppen"
+      ],
+      replies: [
+        "Pudichikoh...",
+        "Same Pinch eh !",
+        "Vaah Vaah chellamae"
+      ]
+    },
+    {
+      q: "Namba next official meet ku enga polam?",
+      options: ["Yercaud", "Movie", "Home"],
+      replies: [
+        "Summa Thoongalaam ah",
+        "Horror ah , Romantic ah",
+        "Hoi Hoi ..."
+      ]
+    },
+    {
+      q: "When G ku, B ah Pudichathu?",
+      options: ["Azhagu", "Personality", "Theriyalai eh"],
+      replies: [
+        "Summar moonji",
+        "Moolai eh mutti lae irukku",
+        "Theriyala nah thaan da Love eh"
+      ]
+    },
+    {
+      q: "yaaru summa summa Sandai poodurathu?",
+      options: ["Me", "You", "Both"],
+      replies: [
+        "Apdi othukoh",
+        "Sollu sollu",
+        "Fighers lae"
+      ]
+    }
   ],
 
   correctFeedback: [

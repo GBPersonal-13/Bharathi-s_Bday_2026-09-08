@@ -11,6 +11,7 @@ window.HER_CONFIG = {
       label: "CHAPTER 01",
       title: "The Beginning",
       icon: "🌸",
+      image: "images/chapter-1.jpeg",
       date: "[Date]",
       note: "This is where our story quietly began.",
       body: "[Write a short description of how you two met or first started talking.]"
@@ -19,6 +20,7 @@ window.HER_CONFIG = {
       label: "CHAPTER 02",
       title: "The First Memory",
       icon: "🎏",
+      image: "images/chapter-2.jpeg",
       date: "[Date]",
       note: "I still think about this one.",
       body: "[Write a short, personal message about your first real memory together.]"
@@ -27,6 +29,7 @@ window.HER_CONFIG = {
       label: "CHAPTER 03",
       title: "That One Day",
       icon: "🕊️",
+      image: "images/chapter-3.jpeg",
       date: "[Date]",
       note: "One of my favorite days.",
       body: "[Describe one specific, memorable moment — funny, meaningful, or both.]"
@@ -35,6 +38,7 @@ window.HER_CONFIG = {
       label: "CHAPTER 04",
       title: "Somehow, You Became Home",
       icon: "🌙",
+      image: "images/chapter-4.jpeg",
       date: "[Date]",
       note: "You, unexpectedly, everywhere.",
       body: "[Write something more emotional — when you realized how much she meant to you.]"
@@ -43,6 +47,7 @@ window.HER_CONFIG = {
       label: "FINAL CHAPTER",
       title: "And we're still writing it...",
       icon: "🎐",
+      image: "images/final-chapter.jpeg",
       date: "[Today]",
       note: "To be continued.",
       body: "[A closing line about where things stand now, and where you hope they go.]"

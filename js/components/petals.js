@@ -55,17 +55,6 @@
     ];
 
     var petals = [];
-    var startTime = Date.now();
-
-    // Map precisely to the 5 blossom positions on the top-left branch
-    // Branch SVG is 190px wide at (-10px, -6px) with viewBox 0 0 200 120
-    var branchBlossoms = [
-      { cx: 45,  cy: 18, delay: 0.50, sizeMult: 1.05 },
-      { cx: 75,  cy: 30, delay: 0.38, sizeMult: 1.15 },
-      { cx: 110, cy: 45, delay: 0.25, sizeMult: 1.00 },
-      { cx: 145, cy: 58, delay: 0.12, sizeMult: 1.20 },
-      { cx: 175, cy: 68, delay: 0.00, sizeMult: 1.10 } // Tip of branch blows first!
-    ];
 
     function createPetal(index) {
       var dpr = window.devicePixelRatio || 1;
@@ -73,32 +62,27 @@
       var xPos;
 
       if (isLandingPage) {
-        // Exactly 5 petals start on the 5 cherry blossom branch points and blow down
-        var blossom = branchBlossoms[index % 5];
-        var branchW = Math.min(canvas.width / dpr, 430) * (190 / 430);
-        var scaleX = branchW / 200;
-        var startX = (-10 + blossom.cx * scaleX) * dpr;
-        var startY = (-6 + blossom.cy * scaleX) * dpr;
+        // Exactly 5 petals positioned in a completely random manner across the upper viewport
+        xPos = (0.08 + Math.random() * 0.84) * canvas.width;
+        // Staggered randomly near the top (-6% to +22% of canvas height)
+        yPos = (-0.06 + Math.random() * 0.26) * canvas.height;
 
         return {
-          x: startX,
-          y: startY,
-          originX: startX,
-          originY: startY,
-          released: false,
-          releaseDelay: blossom.delay,
-          size: (22 * blossom.sizeMult + Math.random() * 6) * dpr,
-          speedY: (1.25 + (Math.random() - 0.5) * 0.2) * dpr,
-          speedX: (0.18 + (Math.random() - 0.5) * 0.15) * dpr,
-          swayAmp: (14 + Math.random() * 8) * dpr,
-          swaySpeed: 0.85 + Math.random() * 0.35,
+          x: xPos,
+          y: yPos,
+          size: (20 + Math.random() * 14) * dpr,
+          speedY: (1.20 + (Math.random() - 0.5) * 0.3) * dpr,
+          speedX: ((Math.random() - 0.45) * 0.3) * dpr,
+          swayAmp: (14 + Math.random() * 12) * dpr,
+          swaySpeed: 0.75 + Math.random() * 0.5,
           phase: Math.random() * Math.PI * 2,
           rot: Math.random() * 360,
-          rotSpeed: (1.0 + Math.random() * 0.6) * (Math.random() < 0.5 ? 1 : -1),
+          rotSpeed: (0.85 + Math.random() * 0.8) * (Math.random() < 0.5 ? 1 : -1),
           flipAngle: Math.random() * Math.PI * 2,
-          flipSpeed: 0.022 + Math.random() * 0.02,
-          opacity: 0.85 + Math.random() * 0.12,
-          tone: petalTones[index % petalTones.length]
+          flipSpeed: 0.018 + Math.random() * 0.02,
+          opacity: 0.78 + Math.random() * 0.2,
+          tone: petalTones[Math.floor(Math.random() * petalTones.length)],
+          windFactor: 0.8 + Math.random() * 0.4 // individual responsiveness to wind
         };
       }
 
@@ -115,8 +99,6 @@
       return {
         x: xPos,
         y: yPos,
-        released: true,
-        releaseDelay: 0,
         size: (22 + Math.random() * 14) * dpr,
         speedY: (0.85 + (Math.random() - 0.5) * 0.2) * dpr,
         speedX: (Math.random() - 0.5) * 0.2 * dpr,
@@ -175,12 +157,11 @@
 
     var boostIntensity = 0;
     // Initial dynamic blow / breeze of petals on the landing page (sweeps gracefully downwards over ~4s)
-    var windBreeze = isLandingPage ? 1.4 : 0;
+    var windBreeze = isLandingPage ? 1.35 : 0;
 
     function loop() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       var dpr = window.devicePixelRatio || 1;
-      var elapsed = (Date.now() - startTime) / 1000;
 
       if (boostIntensity > 0) {
         boostIntensity -= 0.008;
@@ -193,36 +174,27 @@
       }
 
       petals.forEach(function(p) {
-        if (!p.released) {
-          if (elapsed >= p.releaseDelay) {
-            p.released = true;
-          } else {
-            // Sway gently on the branch before detaching
-            p.x = p.originX + Math.sin(elapsed * 6 + p.phase) * 1.5 * dpr;
-            p.y = p.originY + Math.cos(elapsed * 5 + p.phase) * 1.0 * dpr;
-            draw(p);
-            return;
-          }
-        }
-
-        // Wind breeze and boost velocity: predominantly downwards (down 2.2x, across 0.75x)
-        var extraSpeedY = (boostIntensity * 0.35 + windBreeze * 2.2) * dpr;
-        var extraSpeedX = (boostIntensity * 0.10 + windBreeze * 0.75) * dpr;
+        var wf = p.windFactor || 1.0;
+        // Wind breeze and boost velocity: predominantly downwards with natural random breeze
+        var extraSpeedY = (boostIntensity * 0.35 + windBreeze * 2.0 * wf) * dpr;
+        var extraSpeedX = (boostIntensity * 0.10 + windBreeze * 0.75 * wf) * dpr;
 
         p.y += p.speedY + extraSpeedY;
         p.x += p.speedX + extraSpeedX + Math.sin(p.y * 0.007 * p.swaySpeed + p.phase) * (0.12 + boostIntensity * 0.06 + windBreeze * 0.15) * dpr;
-        p.rot += p.rotSpeed * (1 + boostIntensity * 0.5 + windBreeze * 1.8);
-        p.flipAngle += p.flipSpeed * (1 + boostIntensity * 0.5 + windBreeze * 1.6);
+        p.rot += p.rotSpeed * (1 + boostIntensity * 0.5 + windBreeze * 1.6 * wf);
+        p.flipAngle += p.flipSpeed * (1 + boostIntensity * 0.5 + windBreeze * 1.5 * wf);
 
         // Continuous, controlled wrap: respawns smoothly above the top edge
         // Ensuring petals remain falling in a continuous flow
         if (p.y > canvas.height + 25 * dpr) {
           p.y = -(15 + Math.random() * 25) * dpr;
           p.x = (0.05 + Math.random() * 0.9) * canvas.width;
-          p.speedY = (isLandingPage ? (1.18 + Math.random() * 0.25) : (0.85 + Math.random() * 0.2)) * dpr;
-          p.speedX = (isLandingPage ? (0.15 + (Math.random() - 0.5) * 0.2) : ((Math.random() - 0.5) * 0.2)) * dpr;
+          p.speedY = (isLandingPage ? (1.15 + (Math.random() - 0.5) * 0.3) : (0.85 + Math.random() * 0.2)) * dpr;
+          p.speedX = (isLandingPage ? ((Math.random() - 0.45) * 0.3) : ((Math.random() - 0.5) * 0.2)) * dpr;
           p.phase = Math.random() * Math.PI * 2;
           p.rot = Math.random() * 360;
+          p.rotSpeed = (0.85 + Math.random() * 0.8) * (Math.random() < 0.5 ? 1 : -1);
+          p.windFactor = 0.8 + Math.random() * 0.4;
         }
 
         if (p.x < -20 * dpr) {

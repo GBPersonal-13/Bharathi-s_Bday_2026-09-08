@@ -32,7 +32,7 @@ window.HER_CONFIG = {
       image: "images/chapter-3.jpeg",
       date: "22/02/2025",
       note: "Antha Frame ah Paaru dii , pah !",
-      body: "First Biggest Risk, First Biggest Reveale"
+      body: "First Biggest Risk, First Biggest Reveal"
     },
     {
       label: "CHAPTER 04",

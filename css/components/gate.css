@@ -1,0 +1,242 @@
+/* =============================================================
+   ENTRANCE GATE / PASSWORD LOCK SCREEN
+   Aesthetic pastel lock screen guarding landing page
+   ============================================================= */
+
+.gate-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(ellipse at 50% 15%, #FBEFE0 0%, transparent 65%),
+    linear-gradient(180deg, #FFF8EA 0%, #F8E7EC 45%, #F3CAD6 100%);
+  overflow: hidden;
+  transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0.65s;
+}
+
+.gate-overlay.is-unlocked {
+  opacity: 0;
+  transform: scale(1.04) translateY(-16px);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* Background atmospheric elements */
+.gate-decorations {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.gate-lantern {
+  position: absolute;
+  top: 36px;
+  left: 28px;
+  width: 28px;
+  opacity: 0.85;
+  animation: sway 4.8s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+.gate-branch {
+  position: absolute;
+  top: -12px;
+  right: -10px;
+  width: 170px;
+  opacity: 0.85;
+  transform: scaleX(-1);
+}
+
+/* Card container */
+.gate-card {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  padding: 34px 24px 30px;
+  background: rgba(255, 253, 249, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(243, 198, 211, 0.7);
+  border-radius: 24px;
+  box-shadow:
+    0 16px 40px rgba(81, 65, 83, 0.12),
+    0 4px 14px rgba(184, 92, 98, 0.08),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8);
+  text-align: center;
+  z-index: 2;
+  transition: transform 0.2s ease;
+}
+
+.gate-card.shake {
+  animation: gateShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes gateShake {
+  10%, 90% { transform: translate3d(-3px, 0, 0); }
+  20%, 80% { transform: translate3d(5px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+  40%, 60% { transform: translate3d(6px, 0, 0); }
+}
+
+.gate-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--red);
+  background: rgba(243, 198, 211, 0.35);
+  border: 1px solid rgba(184, 92, 98, 0.2);
+  padding: 5px 12px;
+  border-radius: 99px;
+  margin-bottom: 14px;
+}
+
+.gate-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(26px, 7vw, 32px);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--plum);
+  margin-bottom: 8px;
+}
+
+.gate-title em {
+  font-style: italic;
+  color: var(--red);
+}
+
+.gate-subtitle {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0 auto 22px;
+  max-width: 270px;
+}
+
+/* Password Form */
+.gate-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.gate-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.gate-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 44px 0 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(184, 92, 98, 0.25);
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s, background-color 0.25s;
+}
+
+.gate-input::placeholder {
+  color: #B5AAB3;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.gate-input:focus {
+  border-color: var(--red);
+  background: #FFFFFF;
+  box-shadow: 0 0 0 4px rgba(184, 92, 98, 0.12);
+}
+
+.gate-toggle-eye {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--ink-soft);
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.gate-toggle-eye:hover {
+  opacity: 0.8;
+  transform: scale(1.1);
+}
+
+.gate-btn {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #C7676E 0%, #B85C62 50%, #9F494F 100%);
+  color: #FFFDF9;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow:
+    0 6px 20px rgba(184, 92, 98, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.gate-btn:hover {
+  transform: translateY(-2px) scale(1.015);
+  box-shadow: 0 8px 24px rgba(184, 92, 98, 0.45);
+}
+
+.gate-btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.gate-error {
+  min-height: 20px;
+  font-size: 12.5px;
+  color: #C5424D;
+  margin-top: 4px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.gate-error.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gate-hint {
+  margin-top: 18px;
+  font-family: 'Caveat', cursive;
+  font-size: 17px;
+  color: var(--plum);
+  opacity: 0.7;
+}

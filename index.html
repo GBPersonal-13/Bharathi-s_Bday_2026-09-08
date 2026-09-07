@@ -39,6 +39,46 @@
   <div class="frame-wrap">
     <div class="app">
 
+      <!-- ================= ENTRANCE PASSWORD GATE ================= -->
+      <div class="gate-overlay" id="passwordGate">
+        <div class="gate-decorations">
+          <svg class="gate-lantern" viewBox="0 0 30 50" xmlns="http://www.w3.org/2000/svg">
+            <rect x="13" y="0" width="4" height="8" fill="#8A6E63" />
+            <ellipse cx="15" cy="26" rx="13" ry="18" fill="#F3D1B8" />
+            <rect x="10" y="10" width="10" height="3" fill="#B85C62" />
+            <rect x="10" y="38" width="10" height="3" fill="#B85C62" />
+          </svg>
+          <svg class="gate-branch" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 5 Q60 20 100 55 Q130 80 160 70" stroke="#8A6E63" stroke-width="3" fill="none" />
+            <circle cx="40" cy="18" r="7" fill="#F3C6D3" />
+            <circle cx="65" cy="32" r="6" fill="#F7DDE4" />
+            <circle cx="90" cy="50" r="7" fill="#F3C6D3" />
+            <circle cx="120" cy="65" r="6" fill="#F7DDE4" />
+            <circle cx="150" cy="68" r="6" fill="#F3C6D3" />
+          </svg>
+        </div>
+
+        <div class="gate-card" id="gateCard">
+          <div class="gate-badge">🌸 Special Access</div>
+          <h2 class="gate-title">Only for <em>Bharathi</em></h2>
+          <p class="gate-subtitle">Enter the secret password to open your birthday storybook 💌</p>
+
+          <div class="gate-form">
+            <div class="gate-input-wrap">
+              <input type="password" class="gate-input" id="gatePasswordInput" placeholder="Enter password..."
+                autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" />
+              <button type="button" class="gate-toggle-eye" id="gateToggleEye" aria-label="Show password">👁️</button>
+            </div>
+            <button type="button" class="gate-btn" id="gateUnlockBtn">
+              <span>Unlock</span> 🌸
+            </button>
+            <div class="gate-error" id="gateError" aria-live="polite"></div>
+          </div>
+
+          <div class="gate-hint">A little secret just between us...</div>
+        </div>
+      </div>
+
       <!-- Top chrome: music toggle -->
       <div class="chrome">
         <button class="music-btn" id="musicBtn" aria-label="Toggle music">♪</button>
@@ -311,6 +351,7 @@
   <script src="js/components/petals.js"></script>
   <script src="js/components/fireworks.js"></script>
   <script src="js/components/storm-transition.js"></script>
+  <script src="js/components/gate.js"></script>
 
   <!-- 3. Page controllers -->
   <script src="js/pages/02-story.js"></script>

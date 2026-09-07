@@ -15,7 +15,10 @@
 /* 4. Shared cinematic transitions */
 @import "transition.css";
 
-/* 5. Page-specific styles */
+/* 5. Entrance password gate */
+@import "components/gate.css";
+
+/* 6. Page-specific styles */
 @import "pages/01-opening.css";
 @import "pages/02-story.css";
 @import "pages/03-quiz.css";

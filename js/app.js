@@ -82,6 +82,7 @@
       bdayPetalEngine = engine;
     }
   });
+  window.petalEngines = petalEngines;
 
   // Cherry blossom branch interaction on landing page
   var branch = document.querySelector('.branch-tl');
@@ -98,6 +99,11 @@
 
   // Storm transition
   window.initStormTransition(reduceMotion);
+
+  // Entrance password gate
+  if (typeof window.initPasswordGate === 'function') {
+    window.initPasswordGate();
+  }
 
   // Page controllers
   window.initStoryPage();

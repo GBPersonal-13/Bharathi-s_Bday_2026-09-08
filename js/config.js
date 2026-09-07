@@ -5,6 +5,9 @@
  * =====================================================================
  */
 window.HER_CONFIG = {
+  // Entrance password required before landing page
+  ENTRY_PASSWORD: "GB13789",
+
   // Page 2: Our Story timeline chapters
   CHAPTERS: [
     {
